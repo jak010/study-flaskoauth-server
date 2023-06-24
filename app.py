@@ -1,15 +1,15 @@
 from flask import Flask
 from flask_migrate import Migrate
 
-from .src.model import db
-from .src.oauth2 import config_auth
+# from .src.model import db
+# from .src.oauth2 import config_auth
+from .src.models import db
+from .src import config
 
 migrate = Migrate()
 
 
 def create_app():
-    from .src import config
-
     app = Flask(__name__)
     app.config.from_object(config)
 
@@ -18,10 +18,10 @@ def create_app():
     migrate.init_app(app, db)
 
     # Auth Setup
-    config_auth(app)
+    # config_auth(app)
 
     # EndPoint Setup
-    from .src.api import bp
-    app.register_blueprint(bp)
+    from .src.apiv1.member import member_api
+    app.register_blueprint(member_api)
 
     return app
