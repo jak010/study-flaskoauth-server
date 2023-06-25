@@ -2,12 +2,8 @@ from dataclasses import dataclass
 
 from flask import Blueprint, request
 from flask import jsonify
-from sqlalchemy.exc import NoResultFound
 
 from src.domain.member import member_service
-
-from src.models import Session
-from src.models.member_model import MemberModel
 
 member_api = Blueprint("member", __name__, url_prefix="/api/member")
 
