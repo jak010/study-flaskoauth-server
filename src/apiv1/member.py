@@ -4,27 +4,25 @@ from flask import Blueprint, request
 from flask import jsonify
 from sqlalchemy.exc import NoResultFound
 
+from src.domain.member import member_service
+
 from src.models import Session
 from src.models.member_model import MemberModel
 
 member_api = Blueprint("member", __name__, url_prefix="/api/member")
 
 
-@member_api.route("/", methods=("GET",))
+@member_api.route("", methods=("GET",))
 def find_member():
     """ member 조회하기 """
-    items = []
-    with Session() as s:
-        for row in s.query(MemberModel).all():
-            items.append({
-                'sequence': row.sequence,
-                'member_id': row.member_id
-            })
-
-    return jsonify(data={'items': items})
+    return jsonify(
+        data={
+            'items': member_service.member_list()
+        }
+    )
 
 
-@member_api.route("/", methods=("POST",))
+@member_api.route("", methods=("POST",))
 def register_member():
     """ member 등록하기 """
 
@@ -38,17 +36,6 @@ def register_member():
         password=request.form['password']
     )
 
-    def exist(member: MemberModel):
-        try:
-            return s.query(MemberModel).filter(MemberModel.member_id == member.member_id).one()
-        except NoResultFound:
-            return False
-
-    with Session() as s:
-        new_member = MemberModel(member_id=request_form.member_id, password=request_form.password)
-        if exist(new_member):
-            return jsonify(data={"message": "Already Exist.."})
-
-        s.add(new_member)
+    member_service.create_member(request_form=request_form)
 
     return jsonify(data={"message": "Success"})
