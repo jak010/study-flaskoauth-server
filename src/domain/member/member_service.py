@@ -4,6 +4,7 @@ from src.models import Session
 from src.models.member_model import MemberModel
 from typing import Optional
 from sqlalchemy.exc import NoResultFound
+from .member_entity import MemberEntity
 
 
 def member_list():
@@ -26,6 +27,19 @@ def is_exist(member: MemberModel):
             return s.query(MemberModel).filter(MemberModel.member_id == member.member_id).one()
         except NoResultFound:
             return False
+
+
+def find_member(sequence) -> MemberEntity:
+    with Session() as s:
+        try:
+            member = s.query(MemberModel).filter(MemberModel.sequence == sequence).one()
+            return MemberEntity(
+                sequence=member.sequence,
+                member_id=member.member_id,
+                password=member.password
+            )
+        except NoResultFound:
+            return None
 
 
 def create_member(request_form) -> Optional[MemberModel]:

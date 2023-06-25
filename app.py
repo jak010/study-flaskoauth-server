@@ -22,6 +22,8 @@ def create_app():
 
     # EndPoint Setup
     from .src.apiv1.member import member_api
+    from .src.apiv1.client import client_api
     app.register_blueprint(member_api)
+    app.register_blueprint(client_api)
 
     return app

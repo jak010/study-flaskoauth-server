@@ -36,7 +36,13 @@ class Session:
 
         self._engine = create_engine(self._url, echo=True)
         self._session = scoped_session(
-            sessionmaker(autoflush=False, autocommit=False, bind=self._engine))
+            sessionmaker(
+                autoflush=False,
+                autocommit=False,
+                bind=self._engine,
+                expire_on_commit=True,
+            )
+        )
 
     def __enter__(self):
         return self._session
