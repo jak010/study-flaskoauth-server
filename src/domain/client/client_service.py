@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import List
+
 from src.oauth2lib.client_factory import ClientFactory
 from src.models.client_model import ClientModel
 
@@ -22,3 +26,13 @@ def create_client(request_form, grant_type):
             session.add(new_client)
 
             return ClientEntity.of_model(client_model=new_client)
+
+
+def get_client_list() -> List[ClientEntity]:
+    items = []
+    with Session() as session:
+        clients = session.query(ClientModel).all()
+        for client in clients:
+            items.append(ClientEntity.of_model(client_model=client))
+
+    return items
