@@ -4,3 +4,5 @@ from ._base import db, Session
 
 from .member_model import MemberModel
 from .client_model import ClientModel
+from .client_token_model import ClientTokenModel
+from .client_code_model import ClientCodeModel
