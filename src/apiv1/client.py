@@ -38,8 +38,15 @@ def add_client():
         redirect_uri=request.form['redirect_uri']
     )
 
-    client = client_service.add_authorization_client(request_form)
+    client = client_service.create_client(
+        request_form=request_form,
+        grant_type="authorization_code"
+    )
 
     print(client)
 
-    return jsonify(data={})
+    return jsonify(data={
+        'client_id': client.client_id,
+        'client_secret': client.client_secret,
+        'client_id_issued_at': client.client_id_issued_at
+    })

@@ -1,19 +1,24 @@
 from src.oauth2lib.client_factory import ClientFactory
+from src.models.client_model import ClientModel
 
 from src.domain.member import member_service
+from src.domain.client.client_entity import ClientEntity
+
+from src.models import Session
 
 
-def add_authorization_client(requst_form):
-    member = member_service.find_member(1)
-    print(member.member_id)
-    new_client = ClientFactory.with_type(
-        member=member,
-        client_name=requst_form.client_name,
-        client_uri=requst_form.client_uri,
-        redirect_uri=requst_form.redirect_uri,
-        client_grant_type='authorization_code'
-    )
+def create_client(request_form, grant_type):
+    member = member_service.find_member(4)
 
-    print(new_client)
+    if member:
+        with Session() as session:
+            new_client = ClientFactory.with_type(
+                member=member,
+                client_name=request_form.client_name,
+                client_uri=request_form.client_uri,
+                redirect_uri=request_form.redirect_uri,
+                client_grant_type=grant_type
+            )
+            session.add(new_client)
 
-
+            return ClientEntity.of_model(client_model=new_client)

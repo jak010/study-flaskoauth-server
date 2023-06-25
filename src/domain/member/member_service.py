@@ -39,7 +39,7 @@ def find_member(sequence) -> MemberEntity:
                 password=member.password
             )
         except NoResultFound:
-            return None
+            raise Exception("Not Exists Member")
 
 
 def create_member(request_form) -> Optional[MemberModel]:

@@ -12,7 +12,6 @@ class ClientModel(db.Model):
 
     sequence = Column(Integer, primary_key=True)
     member_sequence = Column(Integer, nullable=False)
-
     client_id = Column(String(48), index=True)
     client_secret = Column(String(120))
     client_id_issued_at = Column(Integer, nullable=False, default=0)

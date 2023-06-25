@@ -7,6 +7,7 @@ from werkzeug.security import gen_salt
 from src.domain.member.member_entity import MemberEntity
 
 from src.models import ClientModel
+from typing import Literal
 
 
 class ClientFactory:
@@ -18,7 +19,7 @@ class ClientFactory:
                   client_name: str,
                   client_uri: str,
                   redirect_uri: str,
-                  client_grant_type: str
+                  client_grant_type: Literal["authorization_code"]
                   ):
         _new_client = cls(
             member=member,
