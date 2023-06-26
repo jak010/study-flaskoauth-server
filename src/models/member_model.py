@@ -9,3 +9,10 @@ class MemberModel(db.Model):
     sequence = Column(Integer, primary_key=True)
     member_id = Column(VARCHAR(255), nullable=True)
     password = Column(VARCHAR(255), nullable=True)
+
+    def get_user_id(self):
+        """ authlib에서 요구하는 기본 spec """
+        return self.member_id
+
+    def get_member_id(self):
+        return self.member_id

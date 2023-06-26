@@ -15,6 +15,7 @@ class ClientTokenModel(db.Model):
     """
     sequence = Column(Integer, primary_key=True)
     client_id = Column(String(48))
+    member_id = Column(String(48))
     token_type = Column(String(40))
     access_token = Column(String(255), unique=True, nullable=False)
     refresh_token = Column(String(255), index=True)

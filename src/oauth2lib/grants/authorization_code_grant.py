@@ -29,11 +29,12 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         return auth_code
 
     def query_authorization_code(self, code, client):
+        """ AuthorizationCodeGrant.validate_token_request """
         ...
-        # auth_code = AuthorizationCode.query.filter_by(
-        #     code=code, client_id=client.client_id).first()
-        #
-        # return auth_code
+        auth_code = ClientCodeModel.query.filter_by(
+            code=code, client_id=client.client_id).first()
+
+        return auth_code
 
     def delete_authorization_code(self, authorization_code):
         ...

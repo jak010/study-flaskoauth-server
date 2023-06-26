@@ -46,8 +46,21 @@ class ClientModel(db.Model):
     def response_types(self):
         return self.client_metadata_dict.get('response_types', [])
 
+    @property
+    def grant_types(self):
+        return self.client_metadata_dict.get('grant_types', [])
+
     def check_redirect_uri(self, redirect_uri):
         return redirect_uri in self.redirect_uris
 
     def check_response_type(self, response_type):
         return response_type in self.response_types
+
+    def check_client_secret(self, client_secret):
+        return client_secret == self.client_secret
+
+    def check_endpoint_auth_method(self, method, endpoint):
+        return True
+
+    def check_grant_type(self, grant_type):
+        return grant_type in self.grant_types

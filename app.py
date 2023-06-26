@@ -5,6 +5,8 @@ from src.models import db
 from src import config
 from src.oauth2lib.authorization_server import AuthorizationProxy
 
+from authlib.oauth2.rfc6750 import BearerTokenGenerator, BearerToken, BearerTokenValidator
+
 migrate = Migrate()
 
 proxy = AuthorizationProxy()
@@ -23,9 +25,11 @@ def create_app():
     from .src.apiv1.member import member_api
     from .src.apiv1.client import client_api
     from .src.apiv1.auth import auth_api
+    from .src.apiv1.token import token_api
 
     flask_app.register_blueprint(member_api)
     flask_app.register_blueprint(client_api)
     flask_app.register_blueprint(auth_api)
+    flask_app.register_blueprint(token_api)
 
     return flask_app
