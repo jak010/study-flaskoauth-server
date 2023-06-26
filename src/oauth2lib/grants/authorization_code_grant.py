@@ -16,18 +16,17 @@ class AuthorizationCodeGrant(grants.AuthorizationCodeGrant):
         return db.session.query(MemberModel).one()
 
     def save_authorization_code(self, code, request):
-        ...
-        # auth_code = ClientCodeModel(
-        #     code=code,
-        #     client_id=request.client.client_id,
-        #     redirect_uri=request.redirect_uri,
-        #     scope=request.scope,
-        #     user_id=1
-        # )
-        #
-        # db.session.add(auth_code)
-        # db.session.commit()
-        # return auth_code
+        """ 인증코드(authorization-code)를 DB에 저장 """
+        auth_code = ClientCodeModel(
+            code=code,
+            client_id=request.client.client_id,
+            redirect_uri=request.redirect_uri,
+            scope=request.scope
+        )
+
+        db.session.add(auth_code)
+        db.session.commit()
+        return auth_code
 
     def query_authorization_code(self, code, client):
         ...

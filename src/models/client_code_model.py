@@ -1,8 +1,10 @@
 import time
 from sqlalchemy import Column, String, Text, Integer
 
+from . import db
 
-class ClientCodeModel:
+
+class ClientCodeModel(db.Model):
     __tablename__ = 'client_code'
 
     sequence = Column(Integer, primary_key=True)

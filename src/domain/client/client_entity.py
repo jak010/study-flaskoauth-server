@@ -14,6 +14,9 @@ class ClientEntity:
     client_secret_expires_at: int
     client_metadata: dict
 
+    member_id: str = None
+    member_password = None
+
     @classmethod
     def of_model(cls, client_model: ClientModel):
         return cls(
@@ -23,7 +26,7 @@ class ClientEntity:
             client_secret=client_model.client_secret,
             client_id_issued_at=client_model.client_id_issued_at,
             client_secret_expires_at=client_model.client_secret_expires_at,
-            client_metadata=json.loads(client_model.client_metadata),
+            client_metadata=json.loads(client_model.client_metadata)
         )
 
     @property

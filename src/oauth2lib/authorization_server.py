@@ -22,38 +22,23 @@ oauth_server = AuthorizationServer(
 )
 
 
-def query_client_func():
-    return create_query_client_func(db.session, ClientModel)
-
-
-def save_token_func():
-    return create_save_token_func(db.session, ClientTokenModel)
-
-
 class AuthorizationProxy:
-    _instance = None
 
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = args[0]
-        return cls._instance
-
-    @classmethod
-    def config(cls, flask_app):
-        print("?")
-        oauth = AuthorizationServer(
-            query_client=query_client_func(),
-            save_token=save_token_func()
+    def __init__(self):
+        self._oauth = AuthorizationServer(
+            query_client=create_query_client_func(db.session, ClientModel),
+            save_token=create_save_token_func(db.session, ClientTokenModel)
         )
-        oauth.init_app(flask_app)
 
-        return cls(oauth)
+    @property
+    def oauth(self):
+        return self._oauth
 
-    # def adapt_authorization_code_grant(self):
-    #     self.oauth.register_grant(authorization_code_grant.AuthorizationCodeGrant)
-    #
-    # def __call__(self, *args, **kwargs):
-    #     return self._instance
+    def config(self, flask_app):
+        self._oauth.init_app(flask_app)
+
+    def add_authorization_grant(self):
+        self._oauth.register_grant(authorization_code_grant.AuthorizationCodeGrant)
 
 # def config_auth(app):
 #     oauth_server.init_app(app)
